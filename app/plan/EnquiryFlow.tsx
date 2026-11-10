@@ -49,7 +49,7 @@ export default function EnquiryFlow({ initialOccasion, packageSlug, initialTown,
       setError(error.message.includes("Too many") ? error.message : "That didn’t send. Check your details and try again, or WhatsApp us.");
       return;
     }
-    const q = new URLSearchParams({ ref: String(data).slice(0, 8), name: name.trim(), email: email.trim(), occasion: occ?.label ?? "" });
+    const q = new URLSearchParams({ e: String(data), name: name.trim(), occasion: occ?.label ?? "" });
     router.push(`/plan/thanks?${q}`);
   }
 

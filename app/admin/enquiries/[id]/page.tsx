@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export default async function EnquiryAdmin({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const { sb } = await requireAdmin(`/admin/enquiries/${id}`);
-  const { data: e } = await sb.from("enquiries").select("*, proposals(id, title, status, total_pence, sent_at)").eq("id", id).maybeSingle();
+  const { data: e } = await sb.from("enquiries").select("*, proposals(id, title, status, total_pence, sent_at), call_bookings(starts_at, status)").eq("id", id).maybeSingle();
   if (!e) notFound();
   const phoneDigits = (e.phone ?? "").replace(/[^\d+]/g, "");
   const waDigits = phoneDigits.replace(/^\+/, "").replace(/^0/, "44");
@@ -33,6 +33,7 @@ export default async function EnquiryAdmin({ params }: { params: Promise<{ id: s
             <dl className="kv">
               <dt>Email</dt><dd><a className="textlink" href={`mailto:${e.email}`}>{e.email}</a></dd>
               <dt>Phone</dt><dd>{e.phone ? <><a className="textlink" href={`tel:${phoneDigits}`}>{e.phone}</a>{e.whatsapp_ok && <> or <a className="textlink" href={`https://wa.me/${waDigits}`}>WhatsApp</a></>}</> : "Not given"}</dd>
+              <dt>Concierge call</dt><dd>{(() => { const c = (e.call_bookings ?? []).find((x: { status: string }) => x.status === "booked"); return c ? <strong style={{ fontWeight: 600 }}>{new Date(c.starts_at).toLocaleString("en-GB", { timeZone: "Europe/London", weekday: "short", day: "numeric", month: "short", hour: "numeric", minute: "2-digit" })}</strong> : "Not booked"; })()}</dd>
               <dt>Event date</dt><dd>{e.event_date ? ukDate(e.event_date) : "Flexible"}</dd>
               <dt>Guests</dt><dd>{e.guests ?? "Not given"}</dd>
               <dt>Budget</dt><dd>{e.budget_pence ? `About ${gbp(e.budget_pence)}` : "Not sure yet"}</dd>

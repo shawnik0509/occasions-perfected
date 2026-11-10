@@ -88,3 +88,66 @@ export async function recordPayment(fd: FormData) {
   if (data) await sb.from("payments").update({ status: "paid", paid_at: new Date().toISOString() }).eq("id", data.id);
   revalidatePath(`/admin/proposals/${pid}`); revalidatePath("/admin");
 }
+
+// ---------- Calendar ----------
+export async function saveHours(fd: FormData) {
+  const { sb } = await requireAdmin();
+  const rows = [0, 1, 2, 3, 4, 5, 6].map((d) => ({
+    weekday: d,
+    is_open: fd.get(`open_${d}`) === "on",
+    start_time: str(fd.get(`start_${d}`)) || "10:00",
+    end_time: str(fd.get(`end_${d}`)) || "18:00",
+  }));
+  const bad = rows.find((r) => r.end_time <= r.start_time);
+  if (bad) redirect(`/admin/calendar?error=${encodeURIComponent("Each day's closing time must be after its opening time.")}`);
+  const { error } = await sb.from("availability_rules").upsert(rows);
+  if (error) redirect(`/admin/calendar?error=${encodeURIComponent(error.message)}`);
+  revalidatePath("/admin/calendar");
+  redirect("/admin/calendar?saved=hours");
+}
+
+export async function saveCallSettings(fd: FormData) {
+  const { sb } = await requireAdmin();
+  const n = (k: string) => Number(str(fd.get(k)));
+  const { error } = await sb.from("call_settings").update({
+    slot_minutes: n("slot_minutes"), min_notice_hours: n("min_notice_hours"), horizon_days: n("horizon_days"),
+  }).eq("id", 1);
+  if (error) redirect(`/admin/calendar?error=${encodeURIComponent("Those settings aren't allowed. Calls must be 10–120 minutes, notice 0–168 hours, and booking 1–90 days ahead.")}`);
+  revalidatePath("/admin/calendar");
+  redirect("/admin/calendar?saved=settings");
+}
+
+export async function addBlock(fd: FormData) {
+  const { sb } = await requireAdmin();
+  const allDay = fd.get("all_day") === "on";
+  const { error } = await sb.rpc("admin_add_block", {
+    p_date: str(fd.get("date")),
+    p_end_date: str(fd.get("end_date")) || null,
+    p_start: allDay ? null : str(fd.get("start")) || null,
+    p_end: allDay ? null : str(fd.get("end")) || null,
+    p_reason: str(fd.get("reason")) || null,
+  });
+  if (error) redirect(`/admin/calendar?error=${encodeURIComponent(error.message)}`);
+  revalidatePath("/admin/calendar");
+  redirect("/admin/calendar?saved=block");
+}
+
+export async function removeBlock(fd: FormData) {
+  const { sb } = await requireAdmin();
+  await sb.from("availability_blocks").delete().eq("id", str(fd.get("id")));
+  revalidatePath("/admin/calendar");
+}
+
+export async function cancelCall(fd: FormData) {
+  const { sb } = await requireAdmin();
+  const id = str(fd.get("id"));
+  const { data } = await sb.from("call_bookings").update({ status: "cancelled" }).eq("id", id).select("enquiry_id").single();
+  if (data) await sb.from("enquiries").update({ status: "new" }).eq("id", data.enquiry_id).eq("status", "call_booked");
+  revalidatePath("/admin/calendar"); revalidatePath("/admin");
+}
+
+export async function completeCall(fd: FormData) {
+  const { sb } = await requireAdmin();
+  await sb.from("call_bookings").update({ status: "completed" }).eq("id", str(fd.get("id")));
+  revalidatePath("/admin/calendar");
+}

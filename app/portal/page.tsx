@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import AppShell from "@/components/AppShell";
+import CallBooker from "@/components/CallBooker";
 import { requireUser } from "@/lib/supabase/server";
 import { gbp, ukDate, whatsappLink } from "@/lib/content";
 import { enquiryStatus, proposalStatus } from "@/lib/labels";
@@ -52,6 +53,7 @@ export default async function Portal({ searchParams }: { searchParams: Promise<R
                 </div>
                 <span className={`pill ${e.status}`}>{enquiryStatus[e.status] ?? e.status}</span>
               </div>
+              {(e.status === "new" || e.status === "call_booked") && <CallBooker enquiryId={e.id} compact />}
               {props.length === 0 ? (
                 <p className="muted small">
                   {e.status === "new" || e.status === "call_booked"

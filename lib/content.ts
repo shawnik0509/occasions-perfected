@@ -8,7 +8,6 @@ export const site = {
   // Set these in Vercel → Settings → Environment Variables. Empty = hidden on the site.
   whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "").replace(/[^\d]/g, ""), // e.g. 447700900123
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
-  bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL ?? "", // e.g. a Cal.com or Calendly link
   termsVersion: "draft-2026-11-10",
 };
 

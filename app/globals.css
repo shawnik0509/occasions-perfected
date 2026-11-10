@@ -337,3 +337,31 @@ p { margin: 0; text-wrap: pretty; }
 .pg-includes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; }
 .pg-includes li { min-width: 0; }
 @media (max-width: 560px) { .pg-includes { grid-template-columns: 1fr; } }
+
+/* ---------- Concierge call booking ---------- */
+.cb { display: grid; gap: 18px; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(18px, 3vw, 28px); background: var(--paper); min-width: 0; }
+.cb.compact { border: 0; padding: 0; }
+.cb-title { font-size: var(--step-2); }
+.cb-days { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x proximity; }
+.cb-day { flex: none; width: 68px; display: grid; justify-items: center; gap: 2px; padding: 10px 0; border-radius: 14px; border: 1px solid var(--line);
+  background: var(--paper); color: var(--ink); font: 400 .8125rem/1.2 var(--font); cursor: pointer; scroll-snap-align: start; }
+.cb-day b { font-size: 1.375rem; font-weight: 500; letter-spacing: -0.02em; }
+.cb-day span { color: var(--slate); }
+.cb-day:hover { border-color: var(--ink); }
+.cb-day[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.cb-day[aria-pressed="true"] span { color: var(--slate-on-ink); }
+.cb-times { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+.cb-time { min-height: 46px; border-radius: 12px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font: 500 .9375rem/1 var(--font); cursor: pointer; font-variant-numeric: tabular-nums; }
+.cb-time:hover { border-color: var(--ink); }
+.cb-time[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: var(--pearl); }
+.cb-confirm { display: grid; gap: 14px; border-top: 1px solid var(--line); padding-top: 18px; }
+.cb-done { background: var(--pearl); border-color: var(--pearl); }
+.cb-done-label { font-size: var(--step--1); color: var(--ok); font-weight: 600; }
+.cb-done-time { font-size: var(--step-2); letter-spacing: -0.02em; }
+.cb-loading { min-height: 160px; align-content: center; }
+
+/* Admin calendar */
+.hours { display: grid; gap: 8px; }
+.hours-row { display: grid; grid-template-columns: 120px 90px 1fr 1fr; gap: 10px; align-items: center; }
+@media (max-width: 600px) { .hours-row { grid-template-columns: 1fr 1fr; } }
+.cb-picked { font-size: var(--step-1); font-weight: 500; letter-spacing: -0.01em; }
