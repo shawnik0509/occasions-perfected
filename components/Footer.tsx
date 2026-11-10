@@ -27,6 +27,7 @@ export default function Footer() {
           <div>
             <h4>Company</h4>
             <ul>
+              <li><Link href="/price-guide">Price guide</Link></li>
               <li><Link href="/how-it-works">How it works</Link></li>
               <li><Link href="/questions">Questions</Link></li>
               <li><Link href="/portal">Client sign in</Link></li>

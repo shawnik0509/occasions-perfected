@@ -120,3 +120,36 @@ export const faqs = [
   { q: "What about the weather?",
     a: "Your concierge will talk you through the options for bad weather on your call, before you commit to anything." },
 ];
+
+// ---------- Price guide ----------
+// PLACEHOLDER figures – change these when real prices are set.
+// Shown price = base + perGuest × guests, rounded to the nearest £50.
+export const priceGuide = {
+  minGuests: 10,
+  maxGuests: 100,
+  step: 5,
+  defaultGuests: 30,
+  occasions: ["milestone-birthdays", "hen-parties", "anniversaries", "garden-parties", "sleepovers", "festive-parties"],
+  styles: [
+    { key: "relaxed", name: "Relaxed", hint: "Laid-back and beautiful", base: 800, perGuest: 35,
+      includes: ["Your own concierge", "Garden styling and festoon lighting", "Grazing food and soft drinks", "Set-up and clear-down"] },
+    { key: "signature", name: "Signature", hint: "Our most popular", base: 1300, perGuest: 50,
+      includes: ["Your own concierge", "Full styling, lighting and lounge areas", "Catering and a bar, planned around your guests", "A host on the night", "Set-up and clear-down", "One extra experience, like a dome or cinema"] },
+    { key: "showstopper", name: "Showstopper", hint: "Nothing held back", base: 3000, perGuest: 95,
+      includes: ["Your own concierge", "Bespoke design, florals and lighting", "Catering, bar and entertainment", "A hosting team on the night", "Venue search and a site visit", "A run sheet for the whole evening"] },
+  ],
+} as const;
+
+export function guidePrice(styleKey: string, guests: number) {
+  const s = priceGuide.styles.find((x) => x.key === styleKey) ?? priceGuide.styles[1];
+  return Math.round((s.base + s.perGuest * guests) / 50) * 50; // pounds
+}
+
+// Which budget button matches a price in pounds (used to pre-fill the enquiry)
+export function budgetIndexFor(pounds: number) {
+  if (pounds < 1000) return 0;
+  if (pounds < 2000) return 1;
+  if (pounds < 4000) return 2;
+  if (pounds < 8000) return 3;
+  return 4;
+}

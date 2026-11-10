@@ -9,6 +9,7 @@ export default function Header({ overlay = false }: { overlay?: boolean }) {
         </Link>
         <nav className="nav" aria-label="Main">
           <Link href="/#celebrations">Celebrations</Link>
+          <Link href="/price-guide">Prices</Link>
           <Link href="/how-it-works">How it works</Link>
           <Link href="/occasions">Where we work</Link>
           <Link href="/questions">Questions</Link>

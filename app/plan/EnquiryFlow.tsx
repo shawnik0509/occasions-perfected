@@ -2,24 +2,25 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseBrowser } from "@/lib/supabase/client";
-import { occasions, budgets, gbp, findOccasion, whatsappLink } from "@/lib/content";
+import { occasions, budgets, gbp, findOccasion, whatsappLink, budgetIndexFor } from "@/lib/content";
 
-type Props = { initialOccasion: string; packageSlug: string; initialTown: string };
+type Props = { initialOccasion: string; packageSlug: string; initialTown: string; initialGuests?: string; guideStyle?: string; guideEstimate?: number | null };
 
-export default function EnquiryFlow({ initialOccasion, packageSlug, initialTown }: Props) {
+export default function EnquiryFlow({ initialOccasion, packageSlug, initialTown, initialGuests = "", guideStyle = "", guideEstimate = null }: Props) {
   const router = useRouter();
   const [step, setStep] = useState(initialOccasion ? 2 : 1);
   const [occasion, setOccasion] = useState(initialOccasion);
   const [date, setDate] = useState("");
   const [flexible, setFlexible] = useState(false);
-  const [guests, setGuests] = useState("");
-  const [budgetIdx, setBudgetIdx] = useState<number | null>(null);
+  const [guests, setGuests] = useState(initialGuests);
+  const [budgetIdx, setBudgetIdx] = useState<number | null>(guideEstimate ? budgetIndexFor(guideEstimate) : null);
   const [town, setTown] = useState(initialTown);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [whatsappOk, setWhatsappOk] = useState(true);
   const [notes, setNotes] = useState("");
+  const guideNote = guideStyle && guideEstimate ? `From the price guide: ${guideStyle} style, about ${gbp(guideEstimate * 100)}.` : "";
   const [optIn, setOptIn] = useState(false); // UK GDPR: starts unticked
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -40,7 +41,7 @@ export default function EnquiryFlow({ initialOccasion, packageSlug, initialTown 
       p_occasion: occ?.label ?? occasion, p_package_slug: packageSlug || occ?.packageSlug || null,
       p_event_date: date || null, p_date_flexible: flexible, p_guests: guests ? Number(guests) : null,
       p_budget_pence: budgetPence, p_town: town || null, p_name: name, p_email: email,
-      p_phone: phone || null, p_whatsapp_ok: whatsappOk, p_notes: notes || null,
+      p_phone: phone || null, p_whatsapp_ok: whatsappOk, p_notes: [guideNote, notes].filter(Boolean).join("\n\n") || null,
       p_marketing_opt_in: optIn, p_source: typeof document !== "undefined" ? (document.referrer ? "referral" : "direct") : null,
     });
     if (error) {
@@ -74,6 +75,7 @@ export default function EnquiryFlow({ initialOccasion, packageSlug, initialTown 
       {step === 2 && (
         <div className="flow-step">
           <h1>When, and roughly how big?</h1>
+          {guideNote && <p className="notice">{guideNote} Your concierge will turn this into an exact price.</p>}
           <div className="grid-2">
             <label className="field"><span>Date</span>
               <input className="input" type="date" min={today} value={date} disabled={flexible} onChange={(e) => setDate(e.target.value)} />
