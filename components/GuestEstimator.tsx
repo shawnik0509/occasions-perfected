@@ -10,7 +10,7 @@ export default function GuestEstimator() {
   const fill = ((guests - estimator.min) / (estimator.max - estimator.min)) * 100;
 
   return (
-    <div className="pg">
+    <div className="pg pg-wide">
       <header className="pg-head">
         <h2 className="pg-title">Tell us how many guests. See what it could look like.</h2>
         <p className="lede">Drag to your guest count. Each package shows an indicative total and what it includes. Your concierge confirms the final plan and price.</p>

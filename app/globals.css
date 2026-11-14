@@ -313,6 +313,8 @@ p { margin: 0; text-wrap: pretty; }
 
 /* ---------- Price guide ---------- */
 .pg { max-width: 760px; display: grid; gap: 32px; }
+.pg.pg-wide { max-width: none; }
+.pg-wide .pg-head { max-width: 680px; }
 .pg-title { font-size: var(--step-3); }
 .pg-head .lede { margin-top: 12px; }
 .pg-controls { display: grid; gap: 28px; }
