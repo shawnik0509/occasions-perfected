@@ -150,18 +150,18 @@ export const estimator = { min: 10, max: 150, step: 5, default: 20 } as const;
 
 export const estimatorTiers = [
   {
-    key: "standard", name: "Standard", blurb: "The essentials, beautifully run.", base: 1800, perGuest: 35, featured: false,
+    key: "relaxed", name: "Relaxed", blurb: "The essentials, beautifully run.", base: 1800, perGuest: 35, featured: false,
     includes: ["Concierge planning and one point of contact", "Venue or home-hosted setup guidance", "One catering option (buffet or canapés)", "Table, chair and linen hire", "Digital invitations and RSVP", "Run sheet and day-of coordination"],
     excludes: ["Entertainment", "Styled décor and florals", "Photo and film coverage"],
   },
   {
-    key: "regular", name: "Regular", blurb: "Our most-booked package.", base: 2500, perGuest: 55, featured: true,
-    includes: ["Everything in Standard", "Choice of catering (sit-down or grazing)", "Styled décor and table scape", "DJ or background music for 3 hours", "Welcome drink on arrival", "Post-event photo gallery"],
+    key: "signature", name: "Signature", blurb: "Our most-booked package.", base: 2500, perGuest: 55, featured: true,
+    includes: ["Everything in Relaxed", "Choice of catering (sit-down or grazing)", "Styled décor and table scape", "DJ or background music for 3 hours", "Welcome drink on arrival", "Post-event photo gallery"],
     excludes: ["Premium entertainment", "Bespoke florals", "Full event film"],
   },
   {
-    key: "gold", name: "Gold", blurb: "The full concierge experience.", base: 4000, perGuest: 85, featured: false,
-    includes: ["Everything in Regular", "Dedicated event host on the day", "Bespoke florals and statement décor", "Premium entertainment (live band or headline act)", "Cocktail hour and drinks package", "Full photo and short film coverage", "Priority support for changes"],
+    key: "showstopper", name: "Showstopper", blurb: "The full concierge experience.", base: 4000, perGuest: 85, featured: false,
+    includes: ["Everything in Signature", "Dedicated event host on the day", "Bespoke florals and statement décor", "Premium entertainment (live band or headline act)", "Cocktail hour and drinks package", "Full photo and short film coverage", "Priority support for changes"],
     excludes: [] as string[],
   },
 ] as const;
