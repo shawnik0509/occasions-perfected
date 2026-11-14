@@ -365,3 +365,34 @@ p { margin: 0; text-wrap: pretty; }
 .hours-row { display: grid; grid-template-columns: 120px 90px 1fr 1fr; gap: 10px; align-items: center; }
 @media (max-width: 600px) { .hours-row { grid-template-columns: 1fr 1fr; } }
 .cb-picked { font-size: var(--step-1); font-weight: 500; letter-spacing: -0.01em; }
+
+/* Homepage estimator (three packages) and event builder */
+.est-tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+@media (max-width: 960px) { .est-tiers { grid-template-columns: 1fr; } }
+.est-tier { position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 26px; display: grid; align-content: start; gap: 10px; }
+.est-tier.featured { border: 2px solid var(--gold); }
+.est-tier h3 { font-size: var(--step-1); font-weight: 600; }
+.est-tier p { margin: 0; }
+.est-badge { position: absolute; top: -12px; left: 22px; background: var(--gold); color: var(--ink); font-size: .8125rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; }
+.est-price { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; margin-top: 6px !important; }
+.est-price small { font-size: .45em; color: var(--slate); margin-right: 6px; }
+.est-list { margin: 10px 0 14px; }
+.est-list li { font-size: var(--step--1); }
+.est-no { color: var(--slate); }
+.est-no::before { content: "–" !important; color: var(--slate) !important; transform: none !important; border: 0 !important; width: auto !important; height: auto !important; left: 2px; }
+.eb-steps { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.eb-step { min-height: 0; padding: 10px 14px; flex: 1 1 160px; }
+.eb-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 20px; }
+@media (max-width: 860px) { .eb-grid { grid-template-columns: 1fr; } }
+.eb-main, .eb-summary { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px; }
+.eb-pane { display: grid; gap: 16px; }
+.eb-pane input[type=date], .eb-pane input[type=number], .eb-pane select { font: inherit; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); max-width: 320px; }
+.eb-svc { display: flex; align-items: flex-start; gap: 12px; padding: 14px 0; border-top: 1px solid var(--line); cursor: pointer; }
+.eb-svc input { margin-top: 4px; accent-color: var(--gold-text); }
+.eb-svc-text { flex: 1; display: grid; gap: 2px; }
+.eb-svc-price { font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.eb-nav { justify-content: space-between; margin-top: 22px; }
+.eb-summary h3 { font-size: var(--step-1); font-weight: 600; margin-bottom: 8px; }
+.eb-line { display: flex; justify-content: space-between; gap: 12px; font-size: var(--step--1); padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.eb-total { display: flex; justify-content: space-between; font-size: var(--step-2); font-weight: 600; margin: 14px 0 4px; font-variant-numeric: tabular-nums; }
+.eb-warn { color: var(--warn); }

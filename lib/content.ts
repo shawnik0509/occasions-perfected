@@ -144,6 +144,49 @@ export function guidePrice(styleKey: string, guests: number) {
   return Math.round((s.base + s.perGuest * guests) / 50) * 50; // pounds
 }
 
+// ---- Homepage estimator (three packages) and event builder ----
+// PLACEHOLDER PRICES: every figure below is a DECISION still to be signed off by Shawnik and the accountant.
+export const estimator = { min: 10, max: 150, step: 5, default: 20 } as const;
+
+export const estimatorTiers = [
+  {
+    key: "standard", name: "Standard", blurb: "The essentials, beautifully run.", base: 1800, perGuest: 35, featured: false,
+    includes: ["Concierge planning and one point of contact", "Venue or home-hosted setup guidance", "One catering option (buffet or canapés)", "Table, chair and linen hire", "Digital invitations and RSVP", "Run sheet and day-of coordination"],
+    excludes: ["Entertainment", "Styled décor and florals", "Photo and film coverage"],
+  },
+  {
+    key: "regular", name: "Regular", blurb: "Our most-booked package.", base: 2500, perGuest: 55, featured: true,
+    includes: ["Everything in Standard", "Choice of catering (sit-down or grazing)", "Styled décor and table scape", "DJ or background music for 3 hours", "Welcome drink on arrival", "Post-event photo gallery"],
+    excludes: ["Premium entertainment", "Bespoke florals", "Full event film"],
+  },
+  {
+    key: "gold", name: "Gold", blurb: "The full concierge experience.", base: 4000, perGuest: 85, featured: false,
+    includes: ["Everything in Regular", "Dedicated event host on the day", "Bespoke florals and statement décor", "Premium entertainment (live band or headline act)", "Cocktail hour and drinks package", "Full photo and short film coverage", "Priority support for changes"],
+    excludes: [] as string[],
+  },
+] as const;
+
+export const estimatorPrice = (base: number, perGuest: number, guests: number) =>
+  Math.round((base + perGuest * guests) / 50) * 50; // pounds, rounded to £50
+
+// Event builder: optional add-ons. perGuest or price (from £x) in pounds.
+export const eventServices = [
+  { id: "catering", name: "Upgraded catering", desc: "Canapés, grazing boards or a sit-down menu.", perGuest: 18, price: 0 },
+  { id: "drinks", name: "Drinks package", desc: "Prosecco, beer, soft drinks and mocktails.", perGuest: 14, price: 0 },
+  { id: "entertainer", name: "Entertainer", desc: "DJ, live band or children's entertainer (DBS checked where needed).", perGuest: 0, price: 350 },
+  { id: "decor", name: "Décor and styling", desc: "Table scape, backdrop and theme styling.", perGuest: 0, price: 450 },
+  { id: "florals", name: "Florals", desc: "Bespoke arrangements for tables and entrance.", perGuest: 0, price: 300 },
+  { id: "tent", name: "Tent or marquee", desc: "Safety certified, PAT tested, staged for weather.", perGuest: 0, price: 700 },
+  { id: "photo", name: "Photographer (4 hours)", desc: "Edited gallery delivered within 2 weeks.", perGuest: 0, price: 550 },
+  { id: "host", name: "Event host on the day", desc: "Runs the timings and keeps the day on track.", perGuest: 0, price: 250 },
+] as const;
+
+export const eventAreas = [
+  { key: "reading", label: "Reading" },
+  { key: "berkshire", label: "Berkshire (within 30 minutes)" },
+  { key: "wider", label: "Wider area (within 1–2 hours)" },
+] as const;
+
 // Which budget button matches a price in pounds (used to pre-fill the enquiry)
 export function budgetIndexFor(pounds: number) {
   if (pounds < 1000) return 0;

@@ -3,7 +3,8 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getPackages } from "@/lib/packages";
-import PriceGuide from "@/components/PriceGuide";
+import GuestEstimator from "@/components/GuestEstimator";
+import EventBuilder from "@/components/EventBuilder";
 import { occasions, towns, steps, faqs, photos, packagePhoto, gbp, whatsappLink } from "@/lib/content";
 
 export const revalidate = 300;
@@ -83,7 +84,11 @@ export default async function Home() {
         </section>
 
         <section className="section" id="prices">
-          <div className="wrap"><PriceGuide /></div>
+          <div className="wrap"><GuestEstimator /></div>
+        </section>
+
+        <section className="section pearl" id="builder" aria-labelledby="eb-h">
+          <div className="wrap"><EventBuilder /></div>
         </section>
 
         <section className="section on-ink" aria-labelledby="how-h">
