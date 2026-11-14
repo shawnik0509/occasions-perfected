@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { occasions, budgets, gbp, findOccasion, whatsappLink, budgetIndexFor } from "@/lib/content";
 
-type Props = { initialOccasion: string; packageSlug: string; initialTown: string; initialGuests?: string; guideStyle?: string; guideEstimate?: number | null };
+type Props = { initialOccasion: string; packageSlug: string; initialTown: string; initialGuests?: string; guideStyle?: string; guideEstimate?: number | null; planNote?: string };
 
-export default function EnquiryFlow({ initialOccasion, packageSlug, initialTown, initialGuests = "", guideStyle = "", guideEstimate = null }: Props) {
+export default function EnquiryFlow({ initialOccasion, packageSlug, initialTown, initialGuests = "", guideStyle = "", guideEstimate = null, planNote = "" }: Props) {
   const router = useRouter();
   const [step, setStep] = useState(initialOccasion ? 2 : 1);
   const [occasion, setOccasion] = useState(initialOccasion);
@@ -41,7 +41,7 @@ export default function EnquiryFlow({ initialOccasion, packageSlug, initialTown,
       p_occasion: occ?.label ?? occasion, p_package_slug: packageSlug || occ?.packageSlug || null,
       p_event_date: date || null, p_date_flexible: flexible, p_guests: guests ? Number(guests) : null,
       p_budget_pence: budgetPence, p_town: town || null, p_name: name, p_email: email,
-      p_phone: phone || null, p_whatsapp_ok: whatsappOk, p_notes: [guideNote, notes].filter(Boolean).join("\n\n") || null,
+      p_phone: phone || null, p_whatsapp_ok: whatsappOk, p_notes: [guideNote, planNote, notes].filter(Boolean).join("\n\n") || null,
       p_marketing_opt_in: optIn, p_source: typeof document !== "undefined" ? (document.referrer ? "referral" : "direct") : null,
     });
     if (error) {

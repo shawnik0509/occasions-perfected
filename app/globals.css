@@ -398,3 +398,10 @@ p { margin: 0; text-wrap: pretty; }
 .eb-line { display: flex; justify-content: space-between; gap: 12px; font-size: var(--step--1); padding: 8px 0; border-bottom: 1px dashed var(--line); }
 .eb-total { display: flex; justify-content: space-between; font-size: var(--step-2); font-weight: 600; margin: 14px 0 4px; font-variant-numeric: tabular-nums; }
 .eb-warn { color: var(--warn); }
+.eb-space { border: 0; padding: 0; margin: 0; display: grid; gap: 12px; min-width: 0; }
+.eb-dims { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; }
+.eb-dims > div:not(.eb-unit) { display: grid; gap: 4px; }
+.eb-dims input { width: 110px; }
+.eb-x { padding-bottom: 12px; color: var(--slate); }
+.eb-unit { display: flex; gap: 6px; }
+.eb-unit .choice { min-height: 0; padding: 10px 14px; }

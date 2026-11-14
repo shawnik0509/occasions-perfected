@@ -15,6 +15,7 @@ export default async function Plan({ searchParams }: { searchParams: Promise<Rec
         <EnquiryFlow initialOccasion={occ ?? ""} packageSlug={sp.package ?? ""} initialTown={sp.town ?? ""}
           initialGuests={sp.guests && /^\d{1,4}$/.test(sp.guests) ? sp.guests : ""}
           guideStyle={priceGuide.styles.find((s) => s.key === sp.style)?.name ?? ""}
+          planNote={sp.plan ? sp.plan.slice(0, 600) : ""}
           guideEstimate={sp.est && /^\d{1,6}$/.test(sp.est) ? Number(sp.est) : null} />
       </main>
     </>
